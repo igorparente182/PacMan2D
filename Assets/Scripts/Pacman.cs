@@ -1,18 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
+[RequireComponent(typeof(Moviment))]
 public class Pacman : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Moviment moviment { get;private set; }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        this.moviment = GetComponent<Moviment>();
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            this.moviment.SetDirection(Vector2.up);
+        }
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            this.moviment.SetDirection(Vector2.down);
+        }
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            this.moviment.SetDirection(Vector2.left);
+        }
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            this.moviment.SetDirection(Vector2.right);
+        }
+
+        float angle = Mathf.Atan2(this.moviment.direction.y, this.moviment.direction.x);
+        this.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
     }
 }
